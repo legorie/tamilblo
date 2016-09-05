@@ -80,8 +80,8 @@ keystone.Email.defaults.templateEngine = require('handlebars');
 
 // Configure the navigation bar in Keystone's Admin UI
 keystone.set('nav', {
-	posts: ['posts', 'post-categories'],
-	galleries: 'galleries',
+	posts: ['posts', 'post-comments', 'post-categories'],
+	//galleries: 'galleries',
 	enquiries: 'enquiries',
 	users: 'users',
 });

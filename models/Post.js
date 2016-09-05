@@ -16,7 +16,7 @@ Post.add({
 	state: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
 	author: { type: Types.Relationship, ref: 'User', index: true },
 	publishedDate: { type: Types.Date, index: true, dependsOn: { state: 'published' } },
-	image: { type: Types.CloudinaryImage },
+	//image: { type: Types.CloudinaryImage }, lps3 02-Sep-2016: Not using images for now
 	content: {
 		brief: { type: Types.Html, wysiwyg: true, height: 150 },
 		extended: { type: Types.Html, wysiwyg: true, height: 400 },
@@ -29,6 +29,9 @@ Post.add({
 Post.schema.virtual('content.full').get(function () {
 	return this.content.extended || this.content.brief;
 });
+
+//Every post can have N comments
+Post.relationship({path: 'comments', ref: 'PostComment', refPath: 'post' })
 
 Post.defaultColumns = 'title, state|20%, author|20%, publishedDate|20%';
 Post.register();
