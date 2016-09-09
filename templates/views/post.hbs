@@ -1,30 +1,104 @@
 <div class="container">
-    <div class="row">
-        <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
-            <article>
-                <p><a href="/blog">&larr; back to the blog</a></p>
-                <hr>
-                <header>
-                    <h1>{{data.post.title}}</h1>
-                    <h5>
-                        {{{categoryList data.post.categories prefix="Posted in "}}}
-                        {{#if author.name.first}}by {{author.name.first}}{{/if}}
-                    </h5>
-                </header>
-                <div class="row">
-                    <div class="post col-sm-6 col-md-6">
-                        {{#if data.post.image}}<img src="{{{cloudinaryUrl data.post.image width=750 height=450 crop='fit' }}}" class="img-responsive">{{/if}}
-                        {{{data.post.content.extended}}}
-                    </div>
-                    <div class="post col-sm-6 col-md-6">
-                        {{{data.post.content.extended_ta}}}
-                    </div>
-                </div>
-                <footer>
-                    <h5>References: {{{data.post.content.ref}}}</h5>
-                </footer>
-            </article>
+  <div class="row">
+    <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+      <article>
+        <p><a href="/blog">&larr; back to the blog</a></p>
+        <hr>
+        <header>
+          <h1>{{data.post.title}}</h1>
+          <h5>
+            {{{categoryList data.post.categories prefix="Posted in "}}}
+            {{#if author.name.first}}by {{author.name.first}}{{/if}}
+          </h5>
+        </header>
+        <div class="row">
+          <div class="post col-sm-6 col-md-6">
+            {{#if data.post.image}}<img src="{{{cloudinaryUrl data.post.image width=750 height=450 crop='fit' }}}" class="img-responsive">{{/if}}
+            {{{data.post.content.extended}}}
+          </div>
+          <div class="post col-sm-6 col-md-6">
+            {{{data.post.content.extended_ta}}}
+          </div>
         </div>
+        <footer>
+          <h5>References: {{{data.post.content.ref}}}</h5>
+        </footer>
+
+        {{! Comment section }}
+        <div class="row">
+          <form method="post" style="margin-bottom: 40px; margin-top: 40px;"><input type="hidden" name="action" value="comment.create">
+            <div class="media">
+              <div class="pull-left">
+                {{#if user}}
+                <img src="{{'http://placehold.it/80x80'}}" alt="{{user.name.full}}" width="{{80}}" height="{{80}}" class="img-rounded">
+                {{else}}
+                <img src="http://placehold.it/80x80" alt="Comment author placeholder" width="{{80}}" height="{{80}}" class="img-rounded">
+                {{/if}}
+              </div>
+              {{#if user}}
+              <div class="media-body"><textarea name="content" placeholder='Leave a comment...' enabled style="margin-bottom: 10px; min-height: 80px; resize: vertical;" class="form-control"></textarea></div>
+              <button type="submit" class="btn btn-primary">Post Comment</button>
+              {{else}}
+              <div class="media-body"><textarea name="content" placeholder='Please sign in to comment' disabled style="margin-bottom: 10px; min-height: 80px; resize: vertical;" class="form-control"></textarea></div>
+              <ul class="list-inline">
+                <li><a href="/keystone/signin" class="btn btn-sm btn-primary">Sign in to Comment</a></li>
+              </ul>
+              {{/if}}
+            </div>
+          </form>
+        </div>
+        {{! Printing the comments}}
+        {{!printo}}
+        <div class="row">
+          {{#if data.comments}}
+          {{#each data.comments as |comment|}}
+          {{#if comment.author}}
+          <div id="comment-id-{{comment.id}}" style="margin-top: 20px;">
+            <div class="media">
+              <div class="pull-left"><img src='http://placehold.it/80x80' alt="{{comment.author.name.full}}" width="{{80}}" height="{{80}}" class="img-rounded"></div>
+              <div class="media-body">
+                <p><strong>{{comment.author.name.full}}</strong>
+                  {{#compare ../user.id "===" comment.author.id}}
+                  &middot; <a href="?remove=comment&comment={{comment.id}}" title="Delete this comment" rel="tooltip" data-placement="left" class="comment-delete js-delete-confirm">Delete</a>
+                  {{/compare}}
+                </p>
+                <p>{{breaklines comment.content}}</p>
+<!-- check what it doees
+check what it doees
+check what it doees
+check what it doees -->
+                <script type="text/javascript">
+                jQuery(function ($) {
+                  var comments = $('#comments');
+                  var input = $('.comment-field-input');
+                  var submit = comments.find('button[type=submit]');
+                  // Scroll to comments and focus input field
+                  function scrollToComments(e) {
+                    e.preventDefault();
+                    $('html, body').animate({scrollTop: comments.offset().top}, 250);
+                    input.eq(0).focus();
+                  }
+                  $('[href="#comments"]').click(scrollToComments);
+                  // Check if field has content: enable/disable submit. Disable by default
+                  submit.attr('disabled', 'disabled');
+                  input.keyup(function () {
+                    if ($.trim($(this).val())) {
+                      submit.removeAttr('disabled');
+                    } else {
+                      submit.attr('disabled', 'disabled');
+                    }
+                  });
+                });
+                </script>
+              </div>
+            </div>
+          </div>
+          {{/if}}
+          {{/each}}
+          {{/if}}
+        </div>
+      </article>
     </div>
+  </div>
 </div>
 </div>
