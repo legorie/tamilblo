@@ -108,8 +108,9 @@ exports = module.exports = function (req, res) {
 							req.flash('error', { detail:'The comment ' + req.query.comment + ' could not be found.'});
 							return next();
 					}
-					if (comment.author != req.user.id) {
-							req.flash({ detail: 'Sorry, you must be the author of a comment to delete it.'});
+					//if (comment.author != req.user.id) {
+					if (!comment.author.equals(req.user.id)) {
+							req.flash('error', {detail: 'Sorry, you must be the author of a comment to delete it.'});
 							return next();
 					}
 					comment.commentState = 'archived';
