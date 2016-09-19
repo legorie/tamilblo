@@ -42,6 +42,7 @@ exports = module.exports = function (req, res) {
 	});
 
 	// Load comments on the Post
+	// Comments tutorial from https://github.com/EduardoAC/keystonejs-tutorials
 	view.on('init', function (next) {
 		keystone.list('PostComment').model.find()
 			.where('post', locals.data.post)
