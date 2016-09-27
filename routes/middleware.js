@@ -55,3 +55,17 @@ exports.requireUser = function (req, res, next) {
 		next();
 	}
 };
+
+// Adding admin middleware
+
+exports.isAdmin = function(req, res,next) {
+	if (!req.user){
+		req.flash('error','Please sign in to access this page');
+		res.redirect('/signin');
+	} else if (!req.user.isAdmin) {
+			req.flash('error','User does not belog to Admin group');
+			res.redirect('/');
+	} else {
+			next();
+	}
+}
