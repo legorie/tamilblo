@@ -21,9 +21,11 @@ exports = module.exports = function(req, res) {
 	});
 	
 	view.on('post', function(next) {
+		console.log('locals');
+        console.log(locals);
 		if (!req.body.password || !req.body.password_confirm) {
 			req.flash('error', {detail:"Please enter, and confirm your new password."});
-			return res.redirect('/resetpassword/'+req.params.key);
+			return res.redirect('/resetpassword/'+locals.key);
 		}
 		
 		if (req.body.password != req.body.password_confirm) {

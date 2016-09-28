@@ -52,7 +52,7 @@ exports = module.exports = function (app) {
 	app.all('/signin', routes.views.auth.signin);
 	app.get('/signout', routes.views.auth.signout);
   	app.all('/forgotpassword', routes.views.auth.forgotpassword);
-  	app.post('/resetpassword', keystone.security.csrf.middleware.validate, routes.views.auth.resetpassword);
+  	app.post('/resetpassword/:key', keystone.security.csrf.middleware.validate, routes.views.auth.resetpassword);
 	app.get('/resetpassword/:key', keystone.security.csrf.middleware.init, routes.views.auth.resetpassword);
 
 };
