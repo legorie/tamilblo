@@ -14,7 +14,8 @@ User.add({
 	email: { type: Types.Email, initial: true, required: true, index: true },
 	password: { type: Types.Password, initial: true, required: true },
 	resetPasswordKey: { type: String, hidden: true },
-	source: { type: String }
+	source: { type: String },
+	oauthID: { type: Number }
 }, 'Permissions', {
 	isAdmin: { type: Boolean, label: 'Can access Keystone', index: true },
 });

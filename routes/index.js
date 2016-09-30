@@ -49,10 +49,18 @@ exports = module.exports = function (app) {
 
 	//Auth stuff
 	app.all('/join', routes.views.auth.join);
+	/////app.all('/auth/social/:provider/:callback', routes.views.auth.social);
 	app.all('/signin', routes.views.auth.signin);
 	app.get('/signout', routes.views.auth.signout);
   	app.all('/forgotpassword', routes.views.auth.forgotpassword);
   	app.post('/resetpassword/:key', keystone.security.csrf.middleware.validate, routes.views.auth.resetpassword);
 	app.get('/resetpassword/:key', keystone.security.csrf.middleware.init, routes.views.auth.resetpassword);
+
+
+	//Social login
+	app.all('/social/confirm', routes.views.social.confirm);
+	app.all('/social/app', routes.views.social.app);
+	app.all('/social/:service', routes.views.social.service);
+
 
 };
