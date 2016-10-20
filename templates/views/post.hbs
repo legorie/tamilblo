@@ -22,6 +22,9 @@
         </div>
         <footer>
           <h5>References: {{{data.post.content.ref}}}</h5>
+          <button class="btn btn-success" id="btn-like" data-id="{{ data.post.id }}"><i class="glyphicon glyphicon-heart"> Like</i></button>
+          <strong class="likes-count">{{ data.post.likes }}</strong> 
+          <!--&nbsp; - &nbsp; <i class="glyphicon glyphicon-eye-open"></i> <strong>{{ image.views }}</strong>-->
         </footer>
 
         {{! Comment section }}
