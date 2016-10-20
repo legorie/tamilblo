@@ -64,9 +64,6 @@ exports = module.exports = function(req, res) {
 		var query = User.model.findOne();
 			query.where('services.' + locals.authUser.type + '.profileId', locals.authUser.profileId);
 			query.exec(function(err, user) {
-				console.log("Err || User");
-				console.log(err);
-				console.log(user);
 				if (err) {
 					console.log('[auth.confirm] - Error finding existing user via profile id.', err);
 					console.log('------------------------------------------------------------');
