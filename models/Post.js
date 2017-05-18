@@ -23,6 +23,8 @@ Post.add({
 		extended_ta: { type: Types.Html, wysiwyg: true, height: 400 },
 		ref: { type: Types.Html, wysiwyg: true, height: 200 },
 	},
+	// views: { type: Number, 'default': 0 },
+    likes: { type: Number, 'default': 0 },
 	categories: { type: Types.Relationship, ref: 'PostCategory', many: true },
 });
 

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <style type="text/css">
+    .firstline {
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <p class="firstline">The Template with a variable of {{variable}}</p>
+  <p>Template interpolation for Mandrill:
+    <li>name *|NAME|*</li>
+    <li>first_name *|FIRST_NAME|*</li>
+    <li>email *|EMAIL|*</li>
+    <li>testVar *|TESTVAR|*</li>
+  </p>
+  <p>Template interpolation for Mailgun:
+    <li>name {{ name }}</li>
+    <li>firstName {{ firstName }}</li>
+    <li>email {{ email }}</li>
+    <li>testVar {{ testVar }}</li>
+  </p>
+</body>
+
+</html>

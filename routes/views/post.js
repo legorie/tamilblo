@@ -82,9 +82,36 @@ exports = module.exports = function (req, res) {
 					}
 					next();
 			});
-
 	});
 
+	// Updating LIKE
+	view.on('get', {action: 'post.like'}, function (next) {
+
+		console.log("Post Liked !!")
+		keystone.list('Post').model.findOne({
+					_id: locals.data.post.id
+					// post: locals.data.post.id,
+			})
+			.exec(function (err, post) {
+					if (err) {
+							if (err.name === 'CastError') {
+									req.flash('error', { detail:'The comment ' + locals.data.post.id + ' could not be found.'});
+									return next();
+							}
+							return res.err(err);
+					}
+					if (!post) {
+							req.flash('error', { detail:'The comment ' + locals.data.post.id + ' could not be found.'});
+							return next();
+					}
+					post.likes += 1;
+					post.save(function (err) {
+							if (err)
+									return res.err(err);
+							return next();
+					});
+			});
+	});
 	// Delete a Comment
 	view.on('get', {remove: 'comment'}, function (next) {
 
@@ -118,7 +145,6 @@ exports = module.exports = function (req, res) {
 					comment.save(function (err) {
 							if (err)
 									return res.err(err);
-							console.log(req);
 							req.flash('success', {detail:'Your comment has been deleted.'});
 							return res.redirect('/blog/post/' + locals.data.post.slug);
 					});

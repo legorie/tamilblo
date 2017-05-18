@@ -8,6 +8,7 @@
  * modules in your project's /lib directory.
  */
 var _ = require('lodash');
+var keystone = require('keystone');
 
 
 /**
@@ -18,13 +19,25 @@ var _ = require('lodash');
 	or replace it with your own templates / logic.
 */
 exports.initLocals = function (req, res, next) {
-	res.locals.navLinks = [
+	var locals = res.locals;
+
+	locals.navLinks = [
 		{ label: 'Home', key: 'home', href: '/' },
 		{ label: 'Blog', key: 'blog', href: '/blog' },
 		{ label: 'Gallery', key: 'gallery', href: '/gallery' },
 		{ label: 'Contact', key: 'contact', href: '/contact' },
 	];
-	res.locals.user = req.user;
+	locals.user = req.user;
+
+	locals.basedir = keystone.get('basedir');
+
+	locals.page = {
+		title: 'TamilThunukku',
+		path: req.url.split("?")[0] // strip the query - handy for redirecting back to the page
+	};
+
+	if (req.cookies.target && req.cookies.target == locals.page.path) res.clearCookie('target');
+
 	next();
 };
 
@@ -55,3 +68,17 @@ exports.requireUser = function (req, res, next) {
 		next();
 	}
 };
+
+// Adding admin middleware
+
+exports.isAdmin = function(req, res,next) {
+	if (!req.user){
+		req.flash('error','Please sign in to access this page');
+		res.redirect('/signin');
+	} else if (!req.user.isAdmin) {
+			req.flash('error','User does not belog to Admin group');
+			res.redirect('/');
+	} else {
+			next();
+	}
+}
