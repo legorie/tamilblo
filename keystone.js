@@ -3,7 +3,8 @@
 require('dotenv').config();
 
 // Require keystone
-var keystone = require('keystone');
+var keystone = require('keystone'),
+	  ConnectMemcached = require('connect-memcached') ;
 var handlebars = require('express-handlebars');
 
 // Initialise Keystone with your project's configuration.
@@ -32,6 +33,13 @@ keystone.init({
 
 	'auto update': true,
 	'session': true,
+	'session store': function (session) {
+		return new (ConnectMemcached(session))({
+			hosts: [
+				process.env.SESSION_STORE || 'localhost:11211' 
+			]
+		});
+	},
 	'auth': true,
 	'user model': 'User',
 });
